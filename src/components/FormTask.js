@@ -1,21 +1,22 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addTask } from "../js/actions/task.action";
+import { addTask, getTasks } from "../js/actions/task.action";
 
 const FormTask = () => {
-  const [task, setTask] = useState("");
+  const [newTask, setnewTask] = useState("");
   const dispatch = useDispatch();
 
   const handleForm = async (e) => {
     e.preventDefault();
-    if (task) {
+    if (newTask) {
       const addData = {
-        description: task,
+        description: newTask,
         done: false,
       };
       await dispatch(addTask(addData));
+      dispatch(getTasks());
 
-      setTask("");
+      setnewTask("");
     }
   };
 
@@ -24,10 +25,10 @@ const FormTask = () => {
       <h1>MES TÂCHES</h1>
       <form onSubmit={(e) => handleForm(e)}>
         <input
-          value={task}
-          onChange={(e) => setTask(e.target.value)}
+          value={newTask}
+          onChange={(e) => setnewTask(e.target.value)}
           type="text"
-          placeholder="Ajoter une tâche "
+          placeholder="Ajouter une tâche "
         />
       </form>
     </div>

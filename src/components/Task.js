@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { editTask } from "../js/actions/task.action";
+import { editTask, isdone } from "../js/actions/task.action";
 
 const Task = ({ task }) => {
   const [editToggle, setEditToggle] = useState(false);
   const [editDesc, seteditDesc] = useState(task.description);
-  const [isDone, setIsDone] = useState(task.done);
+  const [isDone, setIsDone] = useState(task.done); // ici
 
   const dispatch = useDispatch();
 
-  const handleForm = (e) => {
+  const handleEdit = (e) => {
     e.preventDefault();
 
     const data = {
@@ -20,10 +20,20 @@ const Task = ({ task }) => {
     dispatch(editTask(data));
     setEditToggle(false);
   };
+
+  const handleIsdone = () => {
+    const data = {
+      description: task.description,
+      done: !task.done,
+      id: task.id,
+    };
+    dispatch(isdone(data));
+    setIsDone(!isDone);
+  };
   return (
     <div className="task">
       {editToggle ? (
-        <form onSubmit={(e) => handleForm(e)}>
+        <form onSubmit={(e) => handleEdit(e)}>
           <input
             type="text"
             defaultValue={task.description}
@@ -39,7 +49,7 @@ const Task = ({ task }) => {
           <img
             src="./icons/check-solid.svg"
             alt="done"
-            onClick={() => setIsDone(!isDone)}
+            onClick={handleIsdone}
           />
         </div>
       ) : (
@@ -49,11 +59,7 @@ const Task = ({ task }) => {
             src="./icons/edit.svg"
             alt="edit"
           />
-          <img
-            src="./icons/thumbtack-solid.svg"
-            alt=""
-            onClick={() => setIsDone(!isDone)}
-          />
+          <img src="./icons/bell.svg" alt="" onClick={handleIsdone} />
         </div>
       )}
     </div>

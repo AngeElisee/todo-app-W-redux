@@ -24,6 +24,17 @@
       &::placeholder {
         text-align: center;
       }
+
+      &:focus {
+        outline: none;
+        border: 2px solid $color3;
+        text-align: center;
+
+        &::placeholder {
+          opacity: 0;
+          transition: 1s ease-in-out;
+        }
+      }
     }
   }
 }

@@ -1,4 +1,4 @@
-import { ADD_TASK, EDIT_TASK, GET_TASKS } from "../actions/task.action";
+import { ADD_TASK, EDIT_TASK, GET_TASKS, ISDONE } from "../actions/task.action";
 
 const initialState = {};
 
@@ -14,6 +14,15 @@ export default function taskReducer(state = initialState, action) {
           return {
             ...task,
             description: action.payload.description,
+          };
+        } else return task;
+      });
+    case ISDONE:
+      return state.map((task) => {
+        if (task.id === action.payload.id) {
+          return {
+            ...task,
+            done: action.payload.done,
           };
         } else return task;
       });
